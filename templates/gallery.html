@@ -1,0 +1,24 @@
+{% extends "_base.html" %}
+
+title>{% block title %} Gallery oldal {% endblock title  %}</title>
+
+{% block body %}
+    <div class="gallery-layout">
+        <div class="menu">
+            {% for category in categories %}
+                <a href="/gallery/?category={{ category }}" class="category-button {% if  request.GET.category == category.title %}active{% endif %} ">{{ category }}</a>
+            {% endfor %}
+        </div>
+
+        <div class="image-grid">
+            {% for photo in photos %}
+                <a href="/gallery/{{ photo.slug }}/">
+                    <div class="thumbnail-container" style="background-image: url({{ photo.image.url }}) "></div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+{% endblock body  %}
