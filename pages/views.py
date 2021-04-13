@@ -9,32 +9,38 @@ from .forms import ContactForms
 class HomeView(TemplateView):
     template_name = "home.html"
 
-    extra_context = {
-        "photos": Photo.objects.filter(frontpage=True)
-    }
+    def __init__(self):
+        super(HomeView, self).__init__()
+        self.extra_context = {
+            "photos": Photo.objects.filter(frontpage=True)
+        }
 
-    homepage_content = HomePage.objects.all()
-    if homepage_content:
-        extra_context["title"] = homepage_content[0].title
-        extra_context["subtitle"] = homepage_content[0].subtitle
-        extra_context["content"] = homepage_content[0].content
+        homepage_content = HomePage.objects.all()
+        if homepage_content:
+            self.extra_context["title"] = homepage_content[0].title
+            self.extra_context["subtitle"] = homepage_content[0].subtitle
+            self.extra_context["content"] = homepage_content[0].content
 
 
 
 class AboutView(TemplateView):
     template_name = "about.html"
 
-    photos = Photo.objects.all()
+    def __init__(self):
+        super(AboutView, self).__init__()
 
-    extra_context = {
-        "photo": random.choice(photos)
-    }
+        photos = Photo.objects.all()
 
-    aboutpage_content = AboutPage.objects.all()
-    if aboutpage_content:
-        extra_context["title"] = aboutpage_content[0].title
-        extra_context["subtitle"] = aboutpage_content[0].subtitle
-        extra_context["content"] = aboutpage_content[0].content
+        if photos:
+            self.extra_context = {
+            "photo": random.choice(photos)
+            }
+
+        aboutpage_content = AboutPage.objects.all()
+        if aboutpage_content:
+            self.extra_context["title"] = aboutpage_content[0].title
+            self.extra_context["subtitle"] = aboutpage_content[0].subtitle
+            self.extra_context["content"] = aboutpage_content[0].content
 
 
 
@@ -52,11 +58,11 @@ class ContactView(FormView):
     def form_valid(self, form):
 
         send_mail(
-            "Contact",
+            "Fehér Rozi",
             form.data["message"],
             form.data["email"],
-            ['agrimon67@gmail.com'],
-            fail_silently=False
+            ['agrimon67@gmail.com', "andi.grimon@gmail.com"],
+            fail_silently=True
 
         )
 
